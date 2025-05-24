@@ -1,0 +1,1 @@
+This is a Medi Tools platform built using Next.js App Router, Tailwind CSS, Firebase Auth, Firestore DB, and OpenAI API integration. The system supports three user roles (patient, doctor, admin) and has role-based routing and dashboards. Navigation and content are personalized based on role.

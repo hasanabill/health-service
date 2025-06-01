@@ -1,7 +1,9 @@
 "use client";
 
+import { signIn } from "next-auth/react";
 import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { useRouter } from "next/navigation";
 
 interface SignInForm {
   email: string;
@@ -9,14 +11,26 @@ interface SignInForm {
 }
 
 const SignUp = () => {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<SignInForm>();
 
-  const onSubmit: SubmitHandler<SignInForm> = (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<SignInForm> = async (data) => {
+    const res = await signIn("credentials", {
+      redirect: false,
+      email: data.email,
+      password: data.password,
+    });
+
+    if (res?.ok) {
+      router.push("/");
+      console.log("Sign In Successful");
+    } else {
+      console.log("Sign In Failed");
+    }
   };
 
   return (

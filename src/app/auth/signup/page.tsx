@@ -2,6 +2,7 @@
 
 import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { useRouter } from "next/navigation";
 
 interface SignUpForm {
   email: string;
@@ -10,6 +11,8 @@ interface SignUpForm {
 }
 
 const SignUp = () => {
+  const router = useRouter();
+
   const {
     register,
     handleSubmit,
@@ -38,7 +41,7 @@ const SignUp = () => {
     if (res.ok) {
       const result = await res.json();
       console.log("Sign Up Successful:", result);
-      // Redirect or show success message
+      router.push("/");
     } else {
       const error = await res.json();
       console.error("Sign Up Error:", error);

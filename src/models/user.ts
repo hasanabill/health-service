@@ -17,6 +17,8 @@ const UserSchema: Schema<User> = new mongoose.Schema({
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     role: { type: String, default: "patient", enum: ["patient", "doctor", "admin"] },
+    createdAt: { type: Date, default: Date.now },
+    updatedAt: { type: Date, default: Date.now },
 })
 
 const User: Model<User> = mongoose.models.User || mongoose.model<User>("User", UserSchema);

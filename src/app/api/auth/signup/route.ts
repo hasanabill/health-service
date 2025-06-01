@@ -5,7 +5,7 @@ import connectToDatabase from "@/lib/mongodb";
 
 
 export async function POST(request: Request) {
-    const { email, password } = await request.json();
+    const { name, email, password } = await request.json();
     try {
         await connectToDatabase();
         const existingUser = await User.findOne({ email });
@@ -14,6 +14,7 @@ export async function POST(request: Request) {
         }
         const hashedPassword = await bcrypt.hash(password, 10);
         const newUser = new User({
+            name,
             email,
             password: hashedPassword,
         });

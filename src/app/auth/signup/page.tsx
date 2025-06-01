@@ -5,6 +5,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { useRouter } from "next/navigation";
 
 interface SignUpForm {
+  name: string;
   email: string;
   password: string;
   confirmPassword: string;
@@ -41,7 +42,7 @@ const SignUp = () => {
     if (res.ok) {
       const result = await res.json();
       console.log("Sign Up Successful:", result);
-      router.push("/");
+      router.push("/auth/signin");
     } else {
       const error = await res.json();
       console.error("Sign Up Error:", error);
@@ -57,6 +58,12 @@ const SignUp = () => {
         className="bg-white p-6 rounded shadow-md w-80"
       >
         <h2 className="text-2xl font-bold mb-4">Sign Up</h2>
+        <label className="block mb-2 text-sm font-medium">Name</label>
+        <input
+          type="text"
+          {...register("name", { required: "Name is required" })}
+          className="w-full p-2 border rounded mb-2"
+        />
         <label className="block mb-2 text-sm font-medium">Email</label>
         <input
           type="email"

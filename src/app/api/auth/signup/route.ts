@@ -1,45 +1,27 @@
-import { NextResponse } from 'next/server';
-import connectDB from '@/lib/mongodb';
-import User from '@/models/User';
+import bcrypt from "bcryptjs";
+import { NextResponse } from "next/server";
+import User from "@/models/user";
+import connectToDatabase from "@/lib/mongodb";
 
-export async function POST(req: Request) {
+
+export async function POST(request: Request) {
+    const { email, password } = await request.json();
     try {
-        const { name, email, password } = await req.json();
-
-        if (!name || !email || !password) {
-            return NextResponse.json(
-                { message: 'Missing required fields' },
-                { status: 400 }
-            );
-        }
-
-        await connectDB();
-
-        // Check if user already exists
+        await connectToDatabase();
         const existingUser = await User.findOne({ email });
         if (existingUser) {
-            return NextResponse.json(
-                { message: 'User already exists' },
-                { status: 400 }
-            );
+            return NextResponse.json({ error: "User already exists" }, { status: 400 });
         }
-
-        // Create new user
-        const user = await User.create({
-            name,
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const newUser = new User({
             email,
-            password,
-            role: 'patient', // Default role
+            password: hashedPassword,
         });
-
-        return NextResponse.json(
-            { message: 'User created successfully' },
-            { status: 201 }
-        );
-    } catch (error: any) {
-        return NextResponse.json(
-            { message: error.message || 'Something went wrong' },
-            { status: 500 }
-        );
+        await newUser.save();
+        return NextResponse.json({ message: "User created successfully" }, { status: 201 });
     }
-} 
+    catch (error: any) {
+        return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+
+}

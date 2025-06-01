@@ -1,0 +1,24 @@
+import mongoose, { Document, Model, Schema } from "mongoose";
+
+type UserRole = "patient" | "doctor" | "admin";
+
+interface User extends Document {
+    name: string;
+    email: string;
+    password: string;
+    role: UserRole;
+    createdAt: Date;
+    updatedAt: Date;
+    comparePassword(candidatePassword: string): Promise<boolean>;
+}
+
+const UserSchema: Schema<User> = new mongoose.Schema({
+    name: { type: String },
+    email: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
+    role: { type: String, default: "patient", enum: ["patient", "doctor", "admin"] },
+})
+
+const User: Model<User> = mongoose.models.User || mongoose.model<User>("User", UserSchema);
+
+export default User;

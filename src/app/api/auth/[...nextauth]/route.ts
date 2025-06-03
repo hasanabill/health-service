@@ -20,13 +20,13 @@ const handler = NextAuth({
                     await connectToDatabase();
                     const user = await User.findOne({ email: credentials?.email })
                     if (!user) {
-                        throw new Error("")
+                        throw new Error("User not found")
                     }
                     const isValidPassword = await bcrypt.compare(
                         credentials?.password || "", user.password as string
                     )
                     if (!isValidPassword) {
-                        throw new Error("")
+                        throw new Error("Invalid Credentials")
                     }
                     return user
                 }

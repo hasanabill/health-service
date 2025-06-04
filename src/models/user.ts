@@ -13,13 +13,16 @@ interface User extends Document {
 }
 
 const UserSchema: Schema<User> = new mongoose.Schema({
-    name: { type: String },
+    name: { type: String, required: true }, // Added required: true
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     role: { type: String, default: "patient", enum: ["patient", "doctor", "admin"] },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
-})
+}, {
+    timestamps: true // This will automatically update updatedAt
+});
+
 
 const User: Model<User> = mongoose.models.User || mongoose.model<User>("User", UserSchema);
 

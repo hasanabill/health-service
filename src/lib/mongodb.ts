@@ -6,7 +6,7 @@ if (!MONGODB_URI) {
     throw new Error("Please define the MONGODB_URI environment variable inside .env.local");
 }
 
-async function connectToDatabase() {
+async function connectToDB() {
     if (mongoose.connection.readyState === 1) {
         console.log("Using existing connection");
         return mongoose;
@@ -19,4 +19,4 @@ async function connectToDatabase() {
 
 }
 
-export default connectToDatabase;
+export default connectToDB;

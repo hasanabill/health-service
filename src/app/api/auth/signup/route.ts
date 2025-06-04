@@ -1,13 +1,13 @@
 import bcrypt from "bcryptjs";
 import { NextResponse } from "next/server";
 import User from "@/models/user";
-import connectToDatabase from "@/lib/mongodb";
+import connectToDB from "@/lib/mongodb";
 
 
 export async function POST(request: Request) {
     const { name, email, password } = await request.json();
     try {
-        await connectToDatabase();
+        await connectToDB();
         const existingUser = await User.findOne({ email });
         if (existingUser) {
             return NextResponse.json({ error: "User already exists" }, { status: 400 });

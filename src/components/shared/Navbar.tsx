@@ -1,11 +1,9 @@
-"use client";
-
 import Link from "next/link";
-import React from "react";
-import { useSession, signOut } from "next-auth/react";
+import { auth } from "@/auth";
+import SignOutButton from "../auth/SignOutButton";
 
-const Navbar = () => {
-  const { data: session } = useSession();
+const Navbar = async () => {
+  const session = await auth();
 
   const links = [
     { name: "Home", href: "/" },
@@ -46,17 +44,9 @@ const Navbar = () => {
             </li>
           </>
         ) : (
-          <>
-            <h1>{session.user?.name}</h1>
-            <li>
-              <button
-                className="hover:bg-red-500 cursor-pointer hover:text-black py-2 px-3 rounded-lg"
-                onClick={() => signOut()}
-              >
-                Sign Out
-              </button>
-            </li>
-          </>
+          <li>
+            <SignOutButton />
+          </li>
         )}
       </ul>
     </nav>

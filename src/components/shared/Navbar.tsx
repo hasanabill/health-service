@@ -3,7 +3,7 @@ import { auth } from "@/auth";
 import SignOutButton from "../auth/SignOutButton";
 
 const Navbar = async () => {
-  const session = await auth();
+  // const session = await auth();
 
   const links = [
     { name: "Home", href: "/" },
@@ -12,7 +12,7 @@ const Navbar = async () => {
 
   return (
     <nav className="flex justify-around items-center bg-teal-600 text-white p-4">
-      <h1 className="text-2xl font-bold">Health Service</h1>
+      <h1 className="text-2xl font-bold">CareSync</h1>
       <ul className="flex space-x-4 items-center">
         {links.map((link) => (
           <li key={link.name}>
@@ -24,7 +24,7 @@ const Navbar = async () => {
             </Link>
           </li>
         ))}
-        {!session ? (
+        {/* {!session ? (
           <>
             <li>
               <Link
@@ -47,7 +47,7 @@ const Navbar = async () => {
           <li>
             <SignOutButton />
           </li>
-        )}
+        )} */}
       </ul>
     </nav>
   );
